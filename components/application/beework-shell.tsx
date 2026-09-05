@@ -9,6 +9,7 @@ import { Button, ButtonLink } from "@/components/base/buttons/button";
 import { ThemeToggle } from "@/components/application/theme/theme-toggle";
 import { SettingsModal } from "@/components/application/settings/settings-modal";
 import { BeeworkNotifications } from "@/components/application/notification-center/beework-notifications";
+import { BeeworkWallet } from "@/components/application/wallet/beework-wallet";
 import { BeeworkLogo } from "@/components/foundations/brand/beework-logo";
 import { useAuth } from "@/modules/auth/context/auth-context";
 import { usePlatform } from "@/modules/platform/context/platform-context";
@@ -55,6 +56,7 @@ export function BeeworkShell({ children }: { children: React.ReactNode }) {
               </ButtonLink>
               
               <ButtonLink href="/referrals" size="small" variant="secondary" className="hidden sm:inline-flex">Refer friends</ButtonLink>
+              <BeeworkWallet />
               <BeeworkNotifications />
             </>}
             {authenticated ? (

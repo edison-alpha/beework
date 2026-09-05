@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import localFont from "next/font/local";
 import { Providers } from "./providers";
@@ -21,13 +21,18 @@ const sfProRounded = localFont({
 export const metadata: Metadata = {
   title: { default: "Beework — Get great work moving", template: "%s · Beework" },
   description: "Discover, create, and complete high-quality Web3 bounties paid in USDC.",
-  themeColor: "#ffffff",
   manifest: "/manifest.webmanifest",
   icons: {
     icon: "/94b7b561-2a2d-49e9-b826-f192e06df4a0.png",
     shortcut: "/94b7b561-2a2d-49e9-b826-f192e06df4a0.png",
     apple: "/94b7b561-2a2d-49e9-b826-f192e06df4a0.png",
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#ffffff",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
