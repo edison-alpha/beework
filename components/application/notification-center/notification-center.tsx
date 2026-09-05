@@ -173,13 +173,13 @@ export function NotificationCenter({
       ref={ref}
       aria-label={title}
       className={cx(
-        "flex w-full max-w-[430px] flex-col overflow-hidden rounded-3xl border border-border-button-default bg-notification-center-background shadow-dropdown",
+        "flex w-full max-w-[380px] flex-col overflow-hidden rounded-2xl border border-border-button-default bg-notification-center-background shadow-dropdown",
         className,
       )}
       {...props}
     >
-      <div className="flex flex-col gap-3 p-4 pb-1.5">
-        <div className="flex items-start justify-between gap-4">
+      <div className="flex flex-col gap-2.5 p-3 pb-1.5">
+        <div className="flex items-start justify-between gap-3">
           <div className="flex min-w-0 flex-col gap-0.5">
             <h2 className="text-title-3-medium text-text-primary">{title}</h2>
             <p className="text-body-regular text-text-secondary">
@@ -217,9 +217,9 @@ export function NotificationCenter({
         </SegmentedControl>
       </div>
 
-      <div className="bg-notification-center-background p-1.5">
-        <div className="overflow-hidden rounded-2xl bg-background-secondary-default">
-          <div className="max-h-[min(516px,calc(100dvh-240px))] overflow-y-auto overscroll-contain bg-background-secondary-default p-2">
+      <div className="bg-notification-center-background p-1">
+        <div className="overflow-hidden rounded-xl bg-background-secondary-default">
+          <div className="max-h-[min(460px,calc(100dvh-220px))] overflow-y-auto overscroll-contain bg-background-secondary-default p-1.5">
             {visibleNotifications.length === 0 ? (
               <div className="flex min-h-64 flex-col items-center justify-center gap-2 rounded-2xl bg-background-primary-default px-6 text-center">
                 <span className="flex size-11 items-center justify-center rounded-full bg-background-secondary-default text-foreground-icon-secondary">
@@ -237,7 +237,7 @@ export function NotificationCenter({
                   return (
                     <article
                       key={item.id}
-                      className="group/item relative flex gap-3 rounded-notification-card bg-background-primary-default px-3 py-3"
+                      className="group/item relative flex gap-2.5 rounded-xl bg-background-primary-default px-2.5 py-2.5"
                     >
                       <NotificationVisual item={item} />
                       <div className="flex min-w-0 flex-1 flex-col gap-0.5">

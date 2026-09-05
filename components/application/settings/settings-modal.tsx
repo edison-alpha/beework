@@ -66,7 +66,7 @@ export function SettingsModal({ isOpen, onClose, defaultPage = "profile" }: Sett
         </aside>
         <div className="flex min-h-0 min-w-0 flex-1 flex-col">
           <header className="flex shrink-0 items-center justify-between gap-3 px-5 py-5 sm:px-7"><h2 id={titleId} className="text-title-3-semibold">{title}</h2><button ref={closeRef} type="button" onClick={onClose} aria-label="Close settings" className="focus-ring grid size-9 shrink-0 place-items-center rounded-full bg-background-secondary-default hover:bg-background-secondary-hover"><X className="size-4" /></button></header>
-          <div ref={contentRef} className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pb-6 sm:px-7">
+          <div ref={contentRef} className="settings-scrollbar min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pb-6 sm:px-7">
             {isOpen && (!ready || !hydrated ? <p role="status" className="text-body-regular text-text-secondary">Loading settings…</p> : authenticated ? <SettingsContent key={page} section={page} onClose={onClose} /> : <div className="grid gap-4"><p className="text-body-regular">Log in to manage your Beework account.</p><Button onClick={() => { onClose(); login(); }}>Log in</Button></div>)}
           </div>
         </div>

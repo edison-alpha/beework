@@ -393,7 +393,8 @@
 
   /* Text */
   --color-text-primary:  var(--color-neutral-50);
-  --color-text-tertiary: var(--color-neutral-600);
+  --color-text-secondary: var(--color-neutral-400);
+  --color-text-tertiary: var(--color-neutral-500);
   --color-text-disabled: var(--color-neutral-800);
   --color-text-error-primary: var(--color-red-400);
   --color-input-disabled-text: color-mix(in srgb, var(--color-neutral-500) 40%, transparent);
@@ -487,7 +488,7 @@
   --color-notification-center-background:      var(--color-neutral-900);
 
   /* Borders and separators */
-  --color-border-button-default:   var(--color-neutral-700);
+  --color-border-button-default:   var(--color-neutral-600);
   --color-border-button-hover:     var(--color-neutral-500);
   --color-border-button-active:    var(--color-neutral-600);
   --color-border-button-white:     var(--color-zinc-800);
@@ -500,8 +501,8 @@
   --color-border-table:            var(--color-neutral-800);
   --color-border-button-group:     color-mix(in srgb, var(--color-neutral-600) 60%, transparent);
   --color-border-sidebar-profile-hover: var(--color-neutral-600);
-  --color-separator-border:        var(--color-neutral-800);
-  --color-separator-border-strong: color-mix(in srgb, var(--color-neutral-700) 60%, transparent);
+  --color-separator-border:        var(--color-neutral-700);
+  --color-separator-border-strong: color-mix(in srgb, var(--color-neutral-600) 70%, transparent);
 
   /* Figma's dark table status pairs. */
   --color-status-lime-background:   color-mix(in srgb, var(--color-lime-950) 60%, transparent);

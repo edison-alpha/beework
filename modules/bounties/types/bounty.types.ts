@@ -50,6 +50,7 @@ export interface Submission {
   attachments: string[];
   status: SubmissionStatus;
   submittedAt: string;
+  paidAt?: string;
 }
 
 export interface UserProfile {

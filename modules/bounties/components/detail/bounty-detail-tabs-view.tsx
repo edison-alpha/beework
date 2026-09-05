@@ -231,7 +231,7 @@ export function BountyDetailTabsView({ slug }: { slug: string }) {
               onClick={() => setTab(item.id)}
               className={
                 tab === item.id
-                  ? "focus-ring shrink-0 border-r border-separator-border bg-background-primary-default px-5 py-3 text-body-2-semibold text-text-primary"
+                  ? "focus-ring shrink-0 border-r border-separator-border bg-background-primary-hover px-5 py-3 text-body-2-semibold text-accent-300 shadow-[inset_0_-2px_0_var(--color-accent-500)]"
                   : "focus-ring shrink-0 border-r border-separator-border bg-background-secondary-default px-5 py-3 text-body-2-medium text-text-tertiary hover:text-text-primary"
               }
             >

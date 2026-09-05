@@ -15,8 +15,10 @@ export function usePublicProfile(username: string) {
     ...published.map((bounty) => ({ id: `published-${bounty.id}`, kind: "published" as const, date: bounty.createdAt, bounty })),
     ...submittedWork.map((submission) => {
       const bounty = bounties.find((item) => item.id === submission.bountyId);
-      return { id: `submission-${submission.id}`, kind: submission.status === "winner" ? "won" as const : "submitted" as const, date: submission.submittedAt, bounty };
-    }),
+      const events: Array<{ id: string; kind: "submitted" | "won" | "paid"; date: string; bounty: typeof bounty }> = [{ id: `submission-${submission.id}`, kind: submission.status === "winner" ? "won" : "submitted", date: submission.submittedAt, bounty }];
+      if (submission.paidAt) events.push({ id: `paid-${submission.id}`, kind: "paid", date: submission.paidAt, bounty });
+      return events;
+    }).flat(),
   ].sort((left, right) => right.date.localeCompare(left.date)), [bounties, published, submittedWork]);
   return { person, published, completedWork, earned, activities };
 }

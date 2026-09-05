@@ -8,7 +8,7 @@ import { Input } from "@/components/base/input/input";
 import { Switch } from "@/components/base/switch/switch";
 import { ThemeToggle } from "@/components/application/theme/theme-toggle";
 import { VerifiedIcon, UsdcIcon } from "@/components/foundations/icons/brand-icons";
-import { PROFILE_COVERS, ProfileCoverBackground, type ProfileCover } from "@/components/application/profile/profile-cover-background";
+import { PROFILE_COVERS, type ProfileCover } from "@/components/application/profile/profile-cover-background";
 import { useAuth } from "@/modules/auth/context/auth-context";
 import { usePlatform } from "@/modules/platform/context/platform-context";
 import { CATEGORIES, SKILLS } from "@/modules/bounties/constants/bounty.constants";
@@ -18,26 +18,40 @@ import type { SettingsSection } from "../constants/settings.constants";
 
 function ProfileSettings() {
   const { form, update, submit, message, saving } = useSettingsForm();
+  const selectedCoverKey = form.profileCover in PROFILE_COVERS ? form.profileCover : "ocean";
+  const selectedCover = PROFILE_COVERS[selectedCoverKey];
   return (
     <form className="grid gap-5" onSubmit={(event) => { event.preventDefault(); if (!saving) void submit(); }}>
-      <div className="flex items-center gap-3">
-        <Avatar initials={form.avatar} alt={form.name} color="blue" className="size-14" />
-        <div className="min-w-0"><p className="flex items-center gap-2 text-body-medium"><span className="truncate">{form.name}</span>{form.verified && <VerifiedIcon className="size-4 shrink-0" />}</p><p className="text-body-2-regular text-text-tertiary">Your public Beework profile</p></div>
+      <div className="flex flex-wrap items-center gap-3">
+        <div className="flex min-w-0 flex-1 items-center gap-3">
+          <Avatar initials={form.avatar} alt={form.name} color="blue" className="size-14" />
+          <div className="min-w-0"><p className="flex items-center gap-2 text-body-medium"><span className="truncate">{form.name}</span>{form.verified && <VerifiedIcon className="size-4 shrink-0" />}</p><p className="text-body-2-regular text-text-tertiary">Your public Beework profile</p></div>
+        </div>
+        <fieldset className="flex w-full items-center justify-between gap-3 sm:w-auto sm:shrink-0">
+          <legend className="text-body-2-medium">Profile background</legend>
+          <select
+            aria-label="Profile background"
+            value={selectedCoverKey}
+            onChange={(event) => update("profileCover", event.target.value as ProfileCover)}
+            className="focus-ring h-8 w-36 shrink-0 rounded-lg border border-border-button-default px-2 text-body-2-medium text-text-primary"
+            style={{ background: `linear-gradient(135deg, ${selectedCover.colors[0]}, ${selectedCover.colors[2]})` }}
+          >
+            {Object.entries(PROFILE_COVERS).map(([cover, option]) => (
+              <option
+                key={cover}
+                value={cover}
+                style={{ backgroundColor: option.colors[0], color: "#111827" }}
+              >
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </fieldset>
       </div>
       <Input label="Username" value={form.username} maxLength={24} isRequired onChange={(value) => update("username", value.toLowerCase().replace(/[^a-z0-9_]/g, ""))} hint="3–24 letters, numbers, or underscores." />
       <Input label="Display name" value={form.name} maxLength={60} isRequired onChange={(value) => update("name", value)} />
       <Input label="Avatar initials" value={form.avatar} maxLength={2} onChange={(value) => update("avatar", value.toUpperCase())} hint="Leave empty to use a generated avatar." />
       <Input label="Bio" value={form.bio} maxLength={160} onChange={(value) => update("bio", value)} hint={`${form.bio.length}/160 characters`} />
-      <fieldset>
-        <legend className="mb-2 text-body-2-medium">Profile background</legend>
-        <p className="mb-3 text-body-2-regular text-text-tertiary">Choose the gradient shown at the top of your public profile.</p>
-        <div className="grid grid-cols-3 gap-2">
-          {Object.entries(PROFILE_COVERS).map(([cover, option]) => {
-            const selected = form.profileCover === cover;
-            return <button key={cover} type="button" aria-pressed={selected} onClick={() => update("profileCover", cover as ProfileCover)} className={cx("focus-ring overflow-hidden rounded-xl border text-left", selected ? "border-accent-600 ring-2 ring-accent-200" : "border-border-button-default")}><span className="relative block h-14 overflow-hidden"><ProfileCoverBackground cover={cover as ProfileCover} /></span><span className="block px-2 py-1.5 text-caption-1-medium">{option.label}</span></button>;
-          })}
-        </div>
-      </fieldset>
       {([{ key: "skills", label: "Skills", options: SKILLS }, { key: "interests", label: "Bounty interests", options: CATEGORIES }] as const).map(({ key, label, options }) => (
         <fieldset key={key}><legend className="mb-2 text-body-2-medium">{label}</legend><div className="flex flex-wrap gap-2">{options.map((option) => {
           const selected = form[key].includes(option);

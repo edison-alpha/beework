@@ -54,12 +54,19 @@ export const SEED_BOUNTIES: Bounty[] = [
     description: doc("The current indexer is correct but falls behind during bursts. Find the bottleneck, improve throughput, and document the tradeoffs.", ["Benchmark before and after changes", "Reviewed Rust implementation", "Operational notes and failure-mode analysis"]),
     category: "Development", skills: ["Rust", "Solana"], creator: { id: "c-4", name: "Helio Works", username: "helioworks", avatar: "HW", verified: true, reputation: 97, paidBounties: 33 }, eligibility: "Verified talent", reward: { amount: 2000, currency: "USDC", network: "solana" }, deadline: "2026-08-28", status: "completed", applicantsCount: 12, createdAt: "2026-08-02", deliverables: ["Benchmarks", "Merged pull request", "Runbook"],
   },
+  {
+    id: "b-6", slug: "design-community-dashboard", title: "Design a community dashboard", summary: "Create a clear dashboard for tracking community momentum and contributor impact.",
+    description: doc("Turn community activity into a calm, useful dashboard that helps teams understand where momentum is building.", ["Responsive Figma prototype", "Component states and empty states", "Short rationale for the information hierarchy"]),
+    category: "Design", skills: ["Figma", "Research"], creator: { id: "c-5", name: "Open Current", username: "opencurrent", avatar: "OC", verified: true, reputation: 91, paidBounties: 18 }, eligibility: "Open to everyone", reward: { amount: 650, currency: "USDC", network: "solana" }, deadline: "2026-09-30", status: "open", applicantsCount: 14, createdAt: "2026-08-25", deliverables: ["Figma prototype", "UI inventory", "Design rationale"],
+  },
 ];
 
 export const SEED_SUBMISSIONS: Submission[] = [
   { id: "s-1", bountyId: "b-4", contributorId: "talent-1", contributorName: "Maya Chen", contributorAvatar: "MC", pitch: "I built a concise narrative around credible work and assembled a modular launch sequence.", deliverableUrl: "https://example.com/beework-launch", attachments: ["launch-messaging.pdf"], status: "shortlisted", submittedAt: "2026-09-03" },
   { id: "s-2", bountyId: "b-4", contributorId: "talent-2", contributorName: "Jordan Lee", contributorAvatar: "JL", pitch: "My concept focuses on proof of work, transparent rewards, and community momentum.", deliverableUrl: "https://example.com/concept", attachments: [], status: "submitted", submittedAt: "2026-09-04" },
   { id: "s-3", bountyId: "b-2", contributorId: CURRENT_USER_ID, contributorName: "Alex Morgan", contributorAvatar: "AM", pitch: "A resilient state-machine approach with an accessible connection example.", deliverableUrl: "https://github.com/example/pull/42", attachments: [], status: "submitted", submittedAt: "2026-09-02" },
+  { id: "s-4", bountyId: "b-1", contributorId: CURRENT_USER_ID, contributorName: "Alex Morgan", contributorAvatar: "AM", pitch: "A warm, accessible onboarding direction with a clear path from first touch to first transaction.", deliverableUrl: "https://figma.com/example/solana-onboarding", attachments: ["onboarding-flow.pdf"], status: "winner", submittedAt: "2026-08-25", paidAt: "2026-08-29" },
+  { id: "s-5", bountyId: "b-6", contributorId: CURRENT_USER_ID, contributorName: "Alex Morgan", contributorAvatar: "AM", pitch: "A focused dashboard concept that makes contribution health easy to scan at a glance.", deliverableUrl: "https://figma.com/example/community-dashboard", attachments: [], status: "submitted", submittedAt: "2026-09-01" },
 ];
 
 export const SEED_REFERRALS: ReferralActivity[] = [

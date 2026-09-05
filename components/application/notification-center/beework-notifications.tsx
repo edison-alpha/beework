@@ -60,7 +60,7 @@ export function BeeworkNotifications() {
       aria-expanded={open} aria-controls={open ? panelId : undefined}
       onClick={() => setOpen((value) => !value)} />
     {unread > 0 && <span aria-hidden className="pointer-events-none absolute -top-1 -right-1 grid min-w-4 place-items-center rounded-full bg-accent-600 px-1 text-[10px] font-bold text-white">{unread > 99 ? "99+" : unread}</span>}
-    {open && <div id={panelId} ref={panelRef} tabIndex={-1} className="fixed top-16 right-3 left-3 z-[60] outline-none sm:absolute sm:top-12 sm:right-0 sm:left-auto sm:w-[430px]">
+    {open && <div id={panelId} ref={panelRef} tabIndex={-1} className="fixed top-16 right-3 left-3 z-[60] outline-none sm:absolute sm:top-12 sm:right-0 sm:left-auto sm:w-[380px]">
       <NotificationCenter notifications={items} className="max-w-none" emptyMessage="No Beework activity yet."
         onMarkRead={markNotificationRead} onMarkAllRead={markNotificationsRead}
         onAction={(id, action) => {

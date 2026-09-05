@@ -41,7 +41,7 @@ export function ProfileView({ username }: { username: string }) {
             <Avatar
               initials={person.avatar}
               color="blue"
-              className="size-20 border-4 border-background-primary-default text-title-3-semibold"
+              className="relative z-10 size-20 border-4 border-background-primary-default text-title-3-semibold"
             />
             {username === profile.username && (
               <ButtonLink
