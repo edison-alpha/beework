@@ -31,6 +31,7 @@ export interface Bounty {
   creator: Creator;
   eligibility: "Open to everyone" | "Verified talent" | "Invite only";
   reward: Reward;
+  minimumPayout?: number;
   deadline: string;
   status: BountyStatus;
   applicantsCount: number;
@@ -95,6 +96,7 @@ export interface BountyDraft {
   skills: string[];
   eligibility: Bounty["eligibility"];
   amount: number;
+  minimumPayout: number;
   deadline: string;
   deliverables: string[];
 }

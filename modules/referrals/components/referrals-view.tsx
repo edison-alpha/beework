@@ -49,7 +49,7 @@ export function ReferralsView() {
           <p className="text-body-2-medium text-accent-600">Referrals</p>
           <h1 className="mt-2 text-title-2-medium">Earn every time your referrals get paid</h1>
           <p className="mt-3 max-w-2xl text-body-regular text-text-secondary">
-            {REFERRAL_RATE_LABEL}. Rewards are simulated in this frontend demo.
+            {REFERRAL_RATE_LABEL}. Referral rewards are tracked in your Beework account.
           </p>
         </div>
         <div className="p-6 sm:p-8">

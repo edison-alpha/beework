@@ -156,6 +156,7 @@ function OptionsPanel() {
 
 function PaymentPanel() {
   const { draft, update } = useCreateBounty();
+  const minimumPayout = draft.minimumPayout ?? Math.max(5, Math.round(draft.amount * 0.1));
   return (
     <div className="grid gap-5">
       <div className="grid gap-5 md:grid-cols-2 md:items-start">
@@ -166,6 +167,14 @@ function PaymentPanel() {
           onChange={(value) => update("amount", Number(value))}
           leadingIcon={CircleDollarSign}
           hint="Minimum reward: 10 USDC"
+        />
+        <Input
+          type="number"
+          label="Minimum payout"
+          value={String(minimumPayout)}
+          onChange={(value) => update("minimumPayout", Number(value))}
+          leadingIcon={CircleDollarSign}
+          hint="The minimum amount paid to an accepted contributor."
         />
         <div>
           <p className="mb-2 text-body-2-medium">Deadline</p>

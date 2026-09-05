@@ -13,6 +13,8 @@ export function validateStep(step: number, draft: BountyDraft) {
   }
   if (step === 2) {
     if (draft.amount < 10) return "The minimum reward is 10 USDC.";
+    if (draft.minimumPayout < 5) return "The minimum payout is 5 USDC.";
+    if (draft.minimumPayout > draft.amount) return "The minimum payout cannot exceed the total reward.";
     if (!draft.deadline || new Date(draft.deadline).getTime() <= Date.now()) return "Choose a future deadline.";
   }
   return null;

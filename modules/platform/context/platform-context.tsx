@@ -161,6 +161,7 @@ export function PlatformProvider({ children }: { children: ReactNode }) {
       creator: { id: state.profile.id, name: state.profile.name, username: state.profile.username, avatar: state.profile.avatar, verified: state.profile.verified, reputation: state.profile.reputation, paidBounties: state.bounties.filter((item) => item.creator.id === state.profile.id && item.status === "completed").length },
       eligibility: draft.eligibility,
       reward: { amount: draft.amount, currency: "USDC", network: "solana" },
+      minimumPayout: draft.minimumPayout ?? Math.max(5, Math.round(draft.amount * 0.1)),
       deadline: draft.deadline,
       status: "open",
       applicantsCount: 0,

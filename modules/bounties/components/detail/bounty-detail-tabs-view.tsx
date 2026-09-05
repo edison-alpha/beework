@@ -42,6 +42,17 @@ type MockActivity = {
   amount?: string;
 };
 
+type BountyComment = {
+  id: string;
+  name: string;
+  avatar: string;
+  text: string;
+  time: string;
+  replyTo?: string;
+};
+
+const COMMENTS_STORAGE_PREFIX = "beework:bounty-comments:";
+
 function formatRemaining(deadline: string, now: number | null) {
   if (now === null) return "--:--:--";
   const remaining = Math.max(0, new Date(`${deadline}T23:59:59`).getTime() - now);
@@ -104,8 +115,10 @@ export function BountyDetailTabsView({ slug }: { slug: string }) {
   const [url, setUrl] = useState("");
   const [submissionMessage, setSubmissionMessage] = useState("");
   const [comment, setComment] = useState("");
+  const [replyTo, setReplyTo] = useState<string | null>(null);
+  const [replyText, setReplyText] = useState("");
   const [now, setNow] = useState<number | null>(null);
-  const [comments, setComments] = useState([
+  const [comments, setComments] = useState<BountyComment[]>([
     {
       id: "c1",
       name: "Maya Chen",
@@ -121,6 +134,7 @@ export function BountyDetailTabsView({ slug }: { slug: string }) {
       time: "4 days ago",
     },
   ]);
+  const [commentsHydrated, setCommentsHydrated] = useState(false);
   const [copied, setCopied] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
   useEffect(() => {
@@ -131,6 +145,20 @@ export function BountyDetailTabsView({ slug }: { slug: string }) {
     const timer = window.setInterval(() => setNow(Date.now()), 60_000);
     return () => window.clearInterval(timer);
   }, []);
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(`${COMMENTS_STORAGE_PREFIX}${slug}`);
+      if (stored) setComments(JSON.parse(stored) as BountyComment[]);
+    } catch {
+      // Keep the seeded comments when local storage is unavailable or invalid.
+    } finally {
+      setCommentsHydrated(true);
+    }
+  }, [slug]);
+  useEffect(() => {
+    if (!commentsHydrated) return;
+    localStorage.setItem(`${COMMENTS_STORAGE_PREFIX}${slug}`, JSON.stringify(comments));
+  }, [comments, commentsHydrated, slug]);
   if (!bounty)
     return (
       <div className="mx-auto max-w-[880px] px-4 py-24 text-center">
@@ -161,7 +189,7 @@ export function BountyDetailTabsView({ slug }: { slug: string }) {
   const isOwner = bounty.creator.id === profile.id;
   const requiresVerification =
     bounty.eligibility === "Verified talent" && !profile.verified;
-  const minimumPayout = Math.max(5, Math.round(bounty.reward.amount * 0.1));
+  const minimumPayout = bounty.minimumPayout ?? Math.max(5, Math.round(bounty.reward.amount * 0.1));
   const tabs: Array<{ id: DetailTab; label: string }> = [
     { id: "activity", label: "Activity" },
     { id: "overview", label: "Overview" },
@@ -401,9 +429,38 @@ export function BountyDetailTabsView({ slug }: { slug: string }) {
                         <p className="mt-2 text-body-regular text-text-secondary">
                           {item.text}
                         </p>
-                        <button className="mt-2 text-caption-1-medium text-text-tertiary hover:text-accent-600">
+                        <button
+                          type="button"
+                          className="mt-2 text-caption-1-medium text-text-tertiary hover:text-accent-600"
+                          onClick={() => {
+                            if (!authenticated) {
+                              login();
+                              return;
+                            }
+                            setReplyTo(item.id);
+                            setReplyText("");
+                          }}
+                        >
                           Reply
                         </button>
+                        {replyTo === item.id && (
+                          <form
+                            className="mt-3 flex gap-2"
+                            onSubmit={(event) => {
+                              event.preventDefault();
+                              if (!replyText.trim()) return;
+                              setComments((items) => [
+                                ...items,
+                                { id: String(Date.now()), name: "Alex Morgan", avatar: "AM", text: replyText.trim(), time: "Just now", replyTo: item.id },
+                              ]);
+                              setReplyText("");
+                              setReplyTo(null);
+                            }}
+                          >
+                            <Input aria-label={`Reply to ${item.name}`} placeholder={`Reply to ${item.name}...`} value={replyText} onChange={setReplyText} className="flex-1" />
+                            <Button type="submit" iconOnly leadingIcon={Send} aria-label="Send reply" />
+                          </form>
+                        )}
                       </div>
                     </article>
                   ))}

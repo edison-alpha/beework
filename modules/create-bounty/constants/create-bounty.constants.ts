@@ -13,6 +13,7 @@ export function createEmptyDraft(): BountyDraft {
     skills: [],
     eligibility: "Open to everyone",
     amount: 250,
+    minimumPayout: 25,
     deadline,
     deliverables: [""],
   };
