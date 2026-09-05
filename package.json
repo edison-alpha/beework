@@ -1,0 +1,48 @@
+{
+  "name": "beework-marketplace",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --hostname 0.0.0.0",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.8.0",
+    "@iconify-json/cryptocurrency-color": "^1.2.4",
+    "@iconify-json/logos": "^1.2.13",
+    "@iconify/react": "latest",
+    "@internationalized/date": "^3.12.1",
+    "@paper-design/shaders-react": "^0.0.80",
+    "@privy-io/react-auth": "latest",
+    "@remixicon/react": "^4.9.0",
+    "@tanstack/react-query": "^5.102.8",
+    "@tiptap/extension-link": "latest",
+    "@tiptap/extension-placeholder": "latest",
+    "@tiptap/pm": "latest",
+    "@tiptap/react": "latest",
+    "@tiptap/starter-kit": "latest",
+    "boring-avatars": "^2.0.4",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cn": "^0.2.5",
+    "lucide-react": "latest",
+    "motion": "^12.42.2",
+    "next": "16.2.4",
+    "react": "19.2.4",
+    "react-aria-components": "^1.17.0",
+    "react-dom": "19.2.4",
+    "shadcn": "^4.21.0",
+    "tailwind-merge": "^3.6.0",
+    "tw-animate-css": "^1.4.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
