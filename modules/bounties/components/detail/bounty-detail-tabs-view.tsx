@@ -13,6 +13,7 @@ import {
   LockKeyhole,
   Send,
   Share2,
+  Timer,
   UsersRound,
   X,
 } from "lucide-react";
@@ -26,7 +27,6 @@ import {
 } from "@/components/foundations/icons/brand-icons";
 import { useAuth } from "@/modules/auth/context/auth-context";
 import { usePlatform } from "@/modules/platform/context/platform-context";
-import { deadlineLabel } from "../../utils/bounty.utils";
 import { SubmissionStatusBadge } from "../status-badge";
 import { RichTextEditor } from "@/modules/create-bounty/components/rich-text-editor";
 
@@ -41,6 +41,16 @@ type MockActivity = {
   kind: "submission" | "paid";
   amount?: string;
 };
+
+function formatRemaining(deadline: string, now: number | null) {
+  if (now === null) return "--:--:--";
+  const remaining = Math.max(0, new Date(`${deadline}T23:59:59`).getTime() - now);
+  const totalMinutes = Math.floor(remaining / 60_000);
+  const days = Math.floor(totalMinutes / 1_440);
+  const hours = Math.floor((totalMinutes % 1_440) / 60);
+  const minutes = totalMinutes % 60;
+  return `${days}d:${hours}h:${minutes}m`;
+}
 
 const MOCK_ACTIVITY: MockActivity[] = [
   { id: "activity-1", name: "prathamlift99", avatar: "PL", verified: true, time: "13 days ago", kind: "submission" },
@@ -81,6 +91,7 @@ export function BountyDetailTabsView({ slug }: { slug: string }) {
   const [pitchContent, setPitchContent] = useState<JSONContent>({ type: "doc", content: [{ type: "paragraph" }] });
   const [url, setUrl] = useState("");
   const [comment, setComment] = useState("");
+  const [now, setNow] = useState<number | null>(null);
   const [comments, setComments] = useState([
     {
       id: "c1",
@@ -102,6 +113,11 @@ export function BountyDetailTabsView({ slug }: { slug: string }) {
   useEffect(() => {
     if (copied) setShareOpen(true);
   }, [copied]);
+  useEffect(() => {
+    setNow(Date.now());
+    const timer = window.setInterval(() => setNow(Date.now()), 60_000);
+    return () => window.clearInterval(timer);
+  }, []);
   if (!bounty)
     return (
       <div className="mx-auto max-w-[880px] px-4 py-24 text-center">
@@ -162,11 +178,16 @@ export function BountyDetailTabsView({ slug }: { slug: string }) {
         </div>
         <h1 className="mt-4 text-title-3-semibold">{bounty.title}</h1>
         <div className="mt-2 flex flex-wrap items-center gap-2 text-body-2-regular text-text-tertiary">
-          <span>{deadlineLabel(bounty.deadline)}</span>
+          <span className="inline-flex items-center gap-2 text-text-primary">
+            <Timer className="size-4 text-accent-500" aria-hidden />
+            <span className="inline-flex flex-col leading-none">
+              <strong className="text-body-medium tabular-nums">{formatRemaining(bounty.deadline, now)}</strong>
+            </span>
+          </span>
           <span>·</span>
-          <span>{bounty.applicantsCount} submissions</span>
+          <span className="text-text-primary">{bounty.applicantsCount} submissions</span>
           <span>·</span>
-          <span>{bounty.category}</span>
+          <Chip color="soft" variant="caption">{bounty.category}</Chip>
           <button
             className="ml-auto inline-flex items-center gap-1 text-accent-600"
             onClick={() => {

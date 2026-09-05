@@ -159,6 +159,18 @@ button:disabled, [aria-disabled="true"] { cursor: not-allowed; }
   box-shadow: var(--shadow-xs);
 }
 
+.app-header::after {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  height: 1.75rem;
+  pointer-events: none;
+  content: "";
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--color-background-full) 62%, transparent), transparent);
+  filter: blur(5px);
+}
+
 /* Create Bounty action bar: fade into the page instead of a hard top border. */
 div.fixed.bottom-0.border-t {
   border-top-width: 0;

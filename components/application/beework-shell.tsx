@@ -44,7 +44,7 @@ export function BeeworkShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen">
-      <header className="sticky top-0 z-50 bg-background-full/95 backdrop-blur-xl">
+      <header className="app-header sticky top-0 z-50 bg-background-full/95 backdrop-blur-xl">
         <div className="flex h-14 items-center gap-3 px-5 sm:px-8">
           <BeeworkLogo />
           <div className="ml-auto flex items-center gap-2">
