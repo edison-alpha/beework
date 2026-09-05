@@ -173,7 +173,7 @@ export function PlatformProvider({ children }: { children: ReactNode }) {
 
   const submitWork = useCallback((input: Pick<Submission, "bountyId" | "pitch" | "deliverableUrl" | "attachments">) => {
     const bounty = state.bounties.find((item) => item.id === input.bountyId);
-    if (!bounty || bounty.creator.id === state.profile.id || state.submissions.some((item) => item.bountyId === input.bountyId && item.contributorId === state.profile.id)) return null;
+    if (!bounty || bounty.status !== "open" || bounty.creator.id === state.profile.id || state.submissions.some((item) => item.bountyId === input.bountyId && item.contributorId === state.profile.id)) return null;
     const submission: Submission = { id: `s-${Date.now()}`, contributorId: state.profile.id, contributorName: state.profile.name, contributorAvatar: state.profile.avatar, status: "submitted", submittedAt: new Date().toISOString().slice(0, 10), ...input };
     dispatch({ type: "submit-work", submission });
     return submission;

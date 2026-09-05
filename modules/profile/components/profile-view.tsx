@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { BriefcaseBusiness, Settings, Star, Trophy } from "lucide-react";
+import { Icon } from "@iconify/react";
+import { Settings } from "lucide-react";
 import { Avatar } from "@/components/base/avatar/avatar";
 import { Chip } from "@/components/base/badges/chip";
 import { ButtonLink } from "@/components/base/buttons/button";
@@ -67,16 +68,23 @@ export function ProfileView({ username }: { username: string }) {
         </div>
       </section>
 
-      <div className="mt-4 grid grid-cols-3 gap-3">
+      <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
         {[
-          { icon: Star, value: `${earned.toLocaleString()} USDC`, label: "Earned" },
-          { icon: BriefcaseBusiness, value: published.length, label: "Bounties" },
-          { icon: Trophy, value: completedWork.length, label: "Wins" },
-        ].map(({ icon: Icon, value, label }) => (
-          <section key={label} className="card-surface p-4">
-            <Icon className="size-4 text-accent-600" />
-            <p className="mt-3 text-title-3-semibold">{value}</p>
-            <p className="text-body-2-regular text-text-tertiary">{label}</p>
+          { icon: "solar:wallet-money-bold", value: `${earned.toLocaleString()} USDC`, label: "Earned", detail: "Total rewards" },
+          { icon: "solar:case-round-bold", value: published.length, label: "Bounties", detail: "Published work" },
+          { icon: "solar:cup-star-bold", value: completedWork.length, label: "Wins", detail: "Completed work" },
+        ].map(({ icon, value, label, detail }) => (
+          <section key={label} className="card-surface flex min-h-32 flex-col justify-between p-4 transition-colors hover:bg-background-secondary-default">
+            <div className="flex items-center justify-between">
+              <span className="grid size-9 place-items-center rounded-xl bg-accent-50 text-accent-700 dark:bg-accent-950 dark:text-accent-300">
+                <Icon icon={icon} className="size-5" aria-hidden="true" />
+              </span>
+              <span className="text-caption-1-medium text-text-tertiary">{detail}</span>
+            </div>
+            <div className="mt-5">
+              <p className="text-title-3-semibold tracking-normal">{value}</p>
+              <p className="mt-0.5 text-body-2-medium text-text-secondary">{label}</p>
+            </div>
           </section>
         ))}
       </div>

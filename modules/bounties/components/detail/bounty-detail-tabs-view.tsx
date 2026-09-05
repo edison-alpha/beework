@@ -82,6 +82,18 @@ function RichNode({ node }: { node: JSONContent }) {
   return <>{children}</>;
 }
 
+function SubmissionPitch({ pitch }: { pitch: string }) {
+  try {
+    const content = JSON.parse(pitch) as JSONContent;
+    if (content.type === "doc" && content.content) {
+      return <div className="text-body-regular text-text-secondary">{content.content.map((node, index) => <RichNode key={index} node={node} />)}</div>;
+    }
+  } catch {
+    // Older submissions may contain plain text instead of editor JSON.
+  }
+  return <p className="whitespace-pre-wrap text-body-regular text-text-secondary">{pitch}</p>;
+}
+
 export function BountyDetailTabsView({ slug }: { slug: string }) {
   const { bounties, profile, submissions, submitWork } = usePlatform();
   const { authenticated, login } = useAuth();
@@ -90,6 +102,7 @@ export function BountyDetailTabsView({ slug }: { slug: string }) {
   const [pitch, setPitch] = useState("");
   const [pitchContent, setPitchContent] = useState<JSONContent>({ type: "doc", content: [{ type: "paragraph" }] });
   const [url, setUrl] = useState("");
+  const [submissionMessage, setSubmissionMessage] = useState("");
   const [comment, setComment] = useState("");
   const [now, setNow] = useState<number | null>(null);
   const [comments, setComments] = useState([
@@ -419,9 +432,7 @@ export function BountyDetailTabsView({ slug }: { slug: string }) {
                     <h3 className="text-headline-semibold">Your submission</h3>
                     <SubmissionStatusBadge status={mine.status} />
                   </div>
-                  <p className="mt-4 text-body-regular text-text-secondary">
-                    {mine.pitch}
-                  </p>
+                  <div className="mt-4"><SubmissionPitch pitch={mine.pitch} /></div>
                   <a
                     href={mine.deliverableUrl}
                     target="_blank"
@@ -465,16 +476,20 @@ export function BountyDetailTabsView({ slug }: { slug: string }) {
                   className="grid gap-4"
                   onSubmit={(event) => {
                     event.preventDefault();
+                    setSubmissionMessage("");
                     if (!authenticated) {
                       login();
                       return;
                     }
-                    submitWork({
+                    const submission = submitWork({
                       bountyId: bounty.id,
                       pitch,
                       deliverableUrl: url,
                       attachments: [],
                     });
+                    setSubmissionMessage(
+                      submission ? "Submission saved locally." : "This submission could not be saved. Check the bounty status or your existing submissions.",
+                    );
                   }}
                 >
                 <div className="grid gap-2 text-body-2-medium"><span>Your approach</span><RichTextEditor value={pitchContent} onChange={(value) => { setPitchContent(value); setPitch(JSON.stringify(value)); }} /></div>
@@ -493,6 +508,7 @@ export function BountyDetailTabsView({ slug }: { slug: string }) {
                     </strong>{" "}
                     You can only submit once in this demo.
                   </div>
+                  {submissionMessage && <p role="status" className="text-body-2-medium text-text-secondary">{submissionMessage}</p>}
                   <Button type="submit" disabled={bounty.status !== "open"}>
                     {authenticated ? "Submit work" : "Log in to submit"}
                   </Button>
